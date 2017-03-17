@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+def sdkVersion = 25;
+def libraryVersion = "3.2.2"
+
+android {
+    compileSdkVersion sdkVersion
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        applicationId "net.gotev.uploadservicedemo"
+        minSdkVersion 16
+        targetSdkVersion sdkVersion
+        versionCode 17
+        versionName libraryVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    maven { url 'http://dl.bintray.com/igenius-code/maven' }
+}
+
+def butterKnifeVersion = "8.5.1"
+def supportVersion = "25.3.0"
+def stethoVersion = "1.4.2"
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Debugging
+    debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
+    debugCompile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
+    releaseCompile "net.igenius:stetho-no-op:1.1"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+
+    // Google support libraries
+    compile "com.android.support:appcompat-v7:${supportVersion}"
+    compile "com.android.support:design:${supportVersion}"
+
+    // ButterKnife
+    compile "com.jakewharton:butterknife:${butterKnifeVersion}"
+    apt "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+
+    compile 'com.nononsenseapps:filepicker:4.0.0-beta1'
+    compile 'net.gotev:recycleradapter:1.5.2'
+
+    /*
+    compile "net.gotev:uploadservice:${libraryVersion}"
+    compile "net.gotev:uploadservice-okhttp:${libraryVersion}"
+    compile "net.gotev:uploadservice-ftp:${libraryVersion}"
+    */
+
+    //comment the previous lines and uncomment the next ones for development (it uses the local libs)
+    compile project(':uploadservice')
+    compile project(':uploadservice-okhttp')
+    compile project(':uploadservice-ftp')
+}

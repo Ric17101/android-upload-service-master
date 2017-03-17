@@ -1,0 +1,4 @@
+include ':demoapp'
+include ':uploadservice'
+include ':uploadservice-okhttp'
+include ':uploadservice-ftp'
